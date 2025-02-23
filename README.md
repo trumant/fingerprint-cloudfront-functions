@@ -1,7 +1,7 @@
-# Cloudfront Functions
+# Fingerprint Cloudfront Functions
 
-The functions here demonstrate how we can use JA3 or JA4 TLS client
-fingerprinting to control traffic to our origin.
+The functions here demonstrate how we can use [JA3 or JA4 TLS client
+fingerprinting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-cloudfront-headers.html#tls-related-versions) to control traffic to our origin.
 
 `echo_fingerprint.js` responds to requests with an HTTP Status 404 and includes
 the fingerprints as response headers: `x-ja3-fingerprint` and `x-ja4-fingerprint`.
@@ -65,8 +65,7 @@ If the request matches one of the first 2 fingerprints, the function responds wi
 < x-amz-cf-id: IbISWf6cWJvj9HrAi9X1jkmKdGskgmyJLEhWg0jfoexuTpUiXm5zww==
 < 
 ```
-This is done simply to illustrate the logic, but normally your function would simply
-respond with the request allowing it to be sent to the origin for further processing.
+This is done simply to illustrate the logic, but normally your function would respond with the request allowing it to be sent to the origin for further processing.
 
 If the request fingerprint matches the 3rd fingerprint or none of the fingerprints, the function
 responds with:
@@ -82,3 +81,10 @@ responds with:
 < alt-svc: h3=":443"; ma=86400
 < x-amz-cf-id: PFdLqMxBDAnnHWD2mZ9OyDHGZk4xcAyfh1osmLmj2haIC3GmSmlYhQ==
 < 
+```
+
+## Terraform example
+
+See `/terraform/main.tf` that shows how the Cloudfront distribution and supporting resources can be configured to implement the example.
+
+In this configuration, the `gate_on_fingerprint.js` function processes all requests sent to `/gate/*` and all other requests sent to the distribution are processed by the `echo_fingerprint.js` function.
