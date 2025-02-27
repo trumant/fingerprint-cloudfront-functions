@@ -88,3 +88,7 @@ responds with:
 See `/terraform/main.tf` that shows how the Cloudfront distribution and supporting resources can be configured to implement the example.
 
 In this configuration, the `gate_on_fingerprint.js` function processes all requests sent to `/gate/*` and all other requests sent to the distribution are processed by the `echo_fingerprint.js` function.
+
+# Architecture
+
+![architecture](architecture.png)
